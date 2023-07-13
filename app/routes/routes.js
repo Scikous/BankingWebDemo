@@ -16,4 +16,5 @@ router.get("/accounts", accountsController.showAccounts);
 router.post("/accounts", accountsController.accountCreateForm);
 
 router.get("/accounts/:id", accountsController.showAccount);
+router.post("/accounts/:id/deposit", accountsController.accountDeposit);
 export { router };
