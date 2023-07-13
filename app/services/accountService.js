@@ -12,4 +12,9 @@ const addAccount = async (accountName, userID) => {
   await sql`INSERT INTO accounts (name, user_id) VALUES (${accountName}, ${userID})`;
 };
 
-export { addAccount, getAccounts, getAccount };
+const deposit = async (userID, accountID, amount) =>{
+  await sql`UPDATE accounts SET balance = balance + ${amount} WHERE user_id = ${userID} AND id = ${accountID}`;
+
+};
+
+export { addAccount, getAccounts, getAccount, deposit };

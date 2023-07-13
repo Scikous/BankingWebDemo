@@ -17,11 +17,6 @@ const showAccounts = async ({ render, response, state }) => {
 };
 
 const showAccount = async ({ render, params, response, state }) => {
-  if (!await state.session.get("authenticated")) {
-    response.status = 401;
-    response.body = "Unauthorized";
-    return;
-  }
   const userID = (await state.session.get("user")).id;
   const accountID = params.id;
 
@@ -54,8 +49,24 @@ const accountCreateForm = async ({ response, request, state }) => {
   response.redirect("/accounts");
 };
 
+const accountDeposit = async ({state, request, response, params}) =>{
+  const userID = (await state.session.get("user")).id;
+  const accountID = params.id;
+  const account = await accountService.getAccount(userID, accountID);
+
+  if (account.length === 0) {
+    response.status = 401;
+    return;
+  }
+  else{
+    const body = request.body();
+    const formParams = await body.value;
+    const amount = formParams.get("amount");
+    accountService.deposit(userID, accountID, amount);
+    response.redirect("/accounts");
+  }
+}
 
 
 
-
-export { accountCreateForm, showAccounts, showAccount };
+export { accountCreateForm, accountDeposit, showAccounts, showAccount };
