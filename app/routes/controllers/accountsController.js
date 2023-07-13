@@ -61,7 +61,7 @@ const accountDeposit = async ({state, request, response, params}) =>{
   else{
     const body = request.body();
     const formParams = await body.value;
-    const amount = formParams.get("amount");
+    const amount = Number(formParams.get("amount"));
     accountService.deposit(userID, accountID, amount);
     response.redirect("/accounts");
   }
@@ -79,7 +79,7 @@ const accountWithdrawal = async ({state, request, response, params}) =>{
   else{
     const body = request.body();
     const formParams = await body.value;
-    const amount = formParams.get("amount");
+    const amount = Number(formParams.get("amount"));
     accountService.withdrawal(userID, accountID, amount);
     response.redirect("/accounts");
   }
