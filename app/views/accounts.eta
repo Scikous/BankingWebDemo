@@ -3,7 +3,7 @@
 <% if (it.accounts && it.accounts.length > 0) { %>
   <ul>
     <% it.accounts.forEach((account) => { %>
-      <li>Account <%= account.id %>: <%= account.name %> (<%= account.balance %>)</li>
+      <li>Account <%= account.id %>: <a href="/accounts/<%= account.id %>"> <%= account.name %> </a> (<%= account.balance %>) </li>
     <% }); %>
   </ul>
 <% } %>
