@@ -1,6 +1,6 @@
 import * as accountService from "../../services/accountService.js";
 
-const showAccounts = async ({ render, params, response, state }) => {
+const showAccounts = async ({ render, response, state }) => {
   if (!await state.session.get("authenticated")) {
     response.status = 401;
     response.body = "Unauthorized";
@@ -14,6 +14,27 @@ const showAccounts = async ({ render, params, response, state }) => {
     accounts = [];
   }
   render("accounts.eta", { accounts: accounts });
+};
+
+const showAccount = async ({ render, params, response, state }) => {
+  if (!await state.session.get("authenticated")) {
+    response.status = 401;
+    response.body = "Unauthorized";
+    return;
+  }
+  const userID = (await state.session.get("user")).id;
+  const accountID = params.id;
+
+  const account = await accountService.getAccount(userID, accountID);
+
+  if (account.length === 0) {
+    response.status = 401;
+    return;
+  }
+
+  const accountDetails = account[0];
+
+  render("account.eta", { name: accountDetails.name, id: accountDetails.id, balance: accountDetails.balance });
 };
 
 const accountCreateForm = async ({ response, request, state }) => {
@@ -33,4 +54,8 @@ const accountCreateForm = async ({ response, request, state }) => {
   response.redirect("/accounts");
 };
 
-export { accountCreateForm, showAccounts };
+
+
+
+
+export { accountCreateForm, showAccounts, showAccount };

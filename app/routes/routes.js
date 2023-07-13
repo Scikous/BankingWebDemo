@@ -8,8 +8,12 @@ router.get("/", mainController.showMain);
 
 router.get("/auth/register", authenticationController.showRegistrationForm);
 router.post("/auth/register", authenticationController.postRegistrationForm);
+
 router.get("/auth/login", authenticationController.showLoginForm);
 router.post("/auth/login", authenticationController.postLoginForm);
+
 router.get("/accounts", accountsController.showAccounts);
 router.post("/accounts", accountsController.accountCreateForm);
+
+router.get("/accounts/:id", accountsController.showAccount);
 export { router };
