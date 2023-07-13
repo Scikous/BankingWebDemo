@@ -65,8 +65,26 @@ const accountDeposit = async ({state, request, response, params}) =>{
     accountService.deposit(userID, accountID, amount);
     response.redirect("/accounts");
   }
-}
+};
+
+const accountWithdrawal = async ({state, request, response, params}) =>{
+  const userID = (await state.session.get("user")).id;
+  const accountID = params.id;
+  const account = await accountService.getAccount(userID, accountID);
+
+  if (account.length === 0) {
+    response.status = 401;
+    return;
+  }
+  else{
+    const body = request.body();
+    const formParams = await body.value;
+    const amount = formParams.get("amount");
+    accountService.withdrawal(userID, accountID, amount);
+    response.redirect("/accounts");
+  }
+};
 
 
 
-export { accountCreateForm, accountDeposit, showAccounts, showAccount };
+export { accountCreateForm, accountDeposit, accountWithdrawal, showAccounts, showAccount };

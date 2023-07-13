@@ -17,4 +17,8 @@ const deposit = async (userID, accountID, amount) =>{
 
 };
 
-export { addAccount, getAccounts, getAccount, deposit };
+const withdrawal = async (userID, accountID, amount) =>{
+  await sql`UPDATE accounts SET balance = balance - ${amount} WHERE user_id = ${userID} AND id = ${accountID}`;
+};
+
+export { addAccount, getAccounts, getAccount, deposit, withdrawal};
